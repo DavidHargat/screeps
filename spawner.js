@@ -2,22 +2,53 @@ var harvester = require("harvester");
 var builder   = require("builder");
 var guard     = require("guard");
 
-var harvest = function(base){
-    var NAME = "Harvest_" + Memory.numHarvest.toString()
-    base.createCreep([WORK, CARRY, MOVE], NAME, {role: "harvest"});
-    Memory.numHarvest = Memory.numHarvest + 1;
-};
-var build = function(base){
-    var NAME = "Builder_" + Memory.numBuild.toString()
-    base.createCreep([WORK, WORK, CARRY, MOVE], NAME, {role: "build"});
-    Memory.numBuild = Memory.numBuild + 1;
-};
-var guard = function(base){
-    var NAME = "Guard_" + Memory.numGuard.toString()
-    base.createCreep([TOUGH, ATTACK, MOVE, MOVE], NAME, {role: "guard"});
-    Memory.numGuard = Memory.numGuard + 1;
+/*
+ * role / body definitions
+ */
+var BODIES = {
+	"harvest": [WORK, CARRY, MOVE],
+	"build":   [WORK, WORK, MOVE],
+	"guard":   [TOUGH, ATTACK, MOVE],
+	"heal":    [HEAL, MOVE]
 };
 
-module.exports.harvest = harvest;
-module.exports.build = build;
-module.exports.guard = guard;
+/*
+ * Defines memory for keeping track
+ * of how many of each 'role' we've created
+ * so we can give them unique names based on
+ * their index.
+ */
+
+var getRoleCounter = function(role){
+	if(Memory.roleCounter === undefined)
+		Memory.roleCounter = {};
+	if(Memory.roleCounter[role] === undefined)
+		Memory.roleCounter[role] = 0;
+	return Memory.roleCounter[role];
+};
+
+var addRoleCounter = function(role){
+	getRoleCounter(role);
+	Memory.roleCounter[role] += 1;
+};
+
+var create = function(base, role){
+	// error checkings
+	if(BODIES[role] === undefined){
+		console.log("Invalid Role: " + role);
+		return false;
+	}
+
+	var body = BODIES[role];
+	var name = role + getRoleCounter(role).toString();
+
+	var result = base.canCreateCreep(body, name);
+
+	if(result == OK){
+		base.createCreep(body, name, {role: role});
+	}else{
+		console.log("Failed To Create Creep.");
+	}
+};
+
+module.exports.create = create;
