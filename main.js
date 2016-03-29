@@ -1,13 +1,15 @@
 var harvester = require("harvester");
 var builder   = require("builder");
 var guard     = require("guard");
+var heal      = require("heal");
 
 module.exports.loop = function () {
   
   var types = {
       "harvest": harvester,
       "build":   builder,
-      "guard":   guard
+      "guard":   guard,
+	  "heal":    heal
   };
   
   for(var name in Game.creeps){
