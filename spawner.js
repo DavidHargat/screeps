@@ -1,7 +1,4 @@
-var harvester = require("harvester");
-var builder   = require("builder");
-var guard     = require("guard");
-var base      = require("base");
+var base = require("base");
 
 /*
  * role / body definitions

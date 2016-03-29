@@ -4,12 +4,6 @@ var guard     = require("guard");
 
 module.exports.loop = function () {
   
-  if(Memory.numHarvest == undefined){
-      Memory.numHarvest = 0;
-      Memory.numBuild = 0;
-      Memory.numGuard = 0;
-  }
-  
   var types = {
       "harvest": harvester,
       "build":   builder,
