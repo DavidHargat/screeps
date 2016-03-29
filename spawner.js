@@ -45,6 +45,7 @@ var create = function(role){
 
 	if(result == OK){
 		spawn.createCreep(body, name, {role: role});
+		addRoleCounter(role);
 	}else{
 		console.log("Failed To Create Creep.");
 	}
