@@ -1,3 +1,4 @@
+var base = require("base");
 
 var getThreat = function(targets){
     for(var i=0; i<targets.length; i++){
@@ -17,11 +18,12 @@ var attackTarget = function(creep, target){
 var logic = function(creep){
     var targets = creep.room.find(FIND_HOSTILE_CREEPS);
     var enemy = getThreat(targets);
-    
+    var spawn = base.getBase();
+
     if(enemy != false){
         attackTarget(creep, enemy);  
     }else{
-        creep.moveTo(Game.spawns.Spawn1);
+        creep.moveTo(spawn);
     }
 };
 

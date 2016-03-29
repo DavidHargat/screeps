@@ -1,6 +1,7 @@
 var harvester = require("harvester");
 var builder   = require("builder");
 var guard     = require("guard");
+var base      = require("base");
 
 /*
  * role / body definitions
@@ -32,20 +33,21 @@ var addRoleCounter = function(role){
 	Memory.roleCounter[role] += 1;
 };
 
-var create = function(base, role){
+var create = function(role){
 	// error checkings
 	if(BODIES[role] === undefined){
 		console.log("Invalid Role: " + role);
 		return false;
 	}
 
+	var spawn = base.getBase();
 	var body = BODIES[role];
 	var name = role + getRoleCounter(role).toString();
 
-	var result = base.canCreateCreep(body, name);
+	var result = spawn.canCreateCreep(body, name);
 
 	if(result == OK){
-		base.createCreep(body, name, {role: role});
+		spawn.createCreep(body, name, {role: role});
 	}else{
 		console.log("Failed To Create Creep.");
 	}

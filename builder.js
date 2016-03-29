@@ -1,19 +1,22 @@
+var base = require("base");
+
 var logic = function(creep){
 	var result  = 0,
 	    sources = creep.room.find(FIND_SOURCES),
-	    base    = Game.spawns.Spawn1;
+	    spawn   = base.getBase();
 	    
 	var get_energy = function(){
-        result = base.transferEnergy(creep);
+        result = spawn.transferEnergy(creep);
         if(result == ERR_NOT_IN_RANGE){
-            creep.moveTo(base);
+            creep.moveTo(spawn);
         }
 	};
 	
 	var build_sites = function(){
 	    var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
 		
-		if(targets.length <= 0) return;
+		if(targets.length <= 0) 
+			return;
 		
 		result = creep.build(targets[0]);
 		
